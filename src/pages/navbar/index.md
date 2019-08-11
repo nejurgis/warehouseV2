@@ -7,7 +7,7 @@ menuItems:
   - label: about
     linkType: internal
     linkURL: /about
-  - label: past meetups
+  - label: Next Meetups
     linkType: internal
     linkURL: /meetups
 ---
