@@ -5,24 +5,15 @@ import Helmet from "react-helmet";
 import isAfter from "date-fns/is_after";
 
 import Layout from "../components/Layout";
-import Map from "../components/Map";
-import HeadshotPlaceholder from "../img/headshot-placeholder.svg";
-import CustomLink from "../components/CustomLink";
 import "../styles/home.scss";
 
 export const HomePageTemplate = ({ home, upcomingMeetup = null }) => {
-  const presenters = upcomingMeetup && upcomingMeetup.presenters;
-  const latitude = upcomingMeetup && parseFloat(upcomingMeetup.location.mapsLatitude);
-  const longitude = upcomingMeetup && parseFloat(upcomingMeetup.location.mapsLongitude);
   return (
     <>
       <section className="header">
-        <div className="header-container  container">
-          {home.headerImage && <img className="header-image" src={home.headerImage.image} alt={home.headerImage.imageAlt} />}
           <h3 className="header-tagline">
             <span className="header-taglinePart">{home.title}</span>
           </h3>
-        </div>
       </section>
       <section className="upcomingMeetup  section">
         <div className="upcomingMeetup-container  container">
@@ -37,64 +28,11 @@ export const HomePageTemplate = ({ home, upcomingMeetup = null }) => {
                 <span className="upcomingMeetup-detailLabel">Location: </span>
                 {upcomingMeetup.location.name}
               </p>
-              {presenters.length > 0 && (
-                <div className="upcomingMeetup-presenters">
-                  {presenters.map(presenter => (
-                    <div className="upcomingMeetup-presenter" key={presenter.text}>
-                      <img
-                        className="upcomingMeetup-presenterImage"
-                        src={presenter.image ? presenter.image : HeadshotPlaceholder}
-                        alt={presenter.image ? presenter.name : "Default headshot placeholder"}
-                      />
-                      <span className="upcomingMeetup-presenterName">{presenter.name}</span>
-                      <span className="upcomingMeetup-presenterPresentationTitle">
-                        {presenter.presentationTitle}
-                      </span>
-                      <p className="upcomingMeetup-presenterDescription">{presenter.text}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <p className="upcomingMeetup-mapNote">{home.mapsNote}</p>
-              <div className="upcomingMeetup-mapWrapper">
-                <Map
-                  isMarkerShown
-                  googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTxauB_VWpo0_8hWELlE3pN59uuHzxD-8&v=3.exp&libraries=geometry,drawing,places"
-                  loadingElement={<div style={{ height: `100%` }} />}
-                  containerElement={<div style={{ height: `100%` }} />}
-                  mapElement={<div style={{ height: `100%` }} />}
-                  link={upcomingMeetup.location.mapsLink}
-                  latitude={latitude}
-                  longitude={longitude}
-                />
-              </div>
             </>
           ) : (
             <p className="upcomingMeetup-detail">{home.noUpcomingMeetupText}</p>
           )}
         </div>
-      </section>
-      <section className="ctaBlock">
-        <CustomLink
-          linkType={home.callToActions.firstCTA.linkType}
-          linkURL={home.callToActions.firstCTA.linkURL}
-          className="ctaBlock-pattern  ctaBlock-pattern--first"
-        >
-          <div className="ctaBlock-cta">
-            <span className="ctaBlock-ctaHeading">{home.callToActions.firstCTA.heading}</span>
-            <p className="ctaBlock-ctaDescription">{home.callToActions.firstCTA.subHeading}</p>
-          </div>
-        </CustomLink>
-        <CustomLink
-          linkType={home.callToActions.secondCTA.linkType}
-          linkURL={home.callToActions.secondCTA.linkURL}
-          className="ctaBlock-pattern  ctaBlock-pattern--second"
-        >
-          <div className="ctaBlock-cta">
-            <span className="ctaBlock-ctaHeading">{home.callToActions.secondCTA.heading}</span>
-            <p className="ctaBlock-ctaDescription">{home.callToActions.secondCTA.subHeading}</p>
-          </div>
-        </CustomLink>
       </section>
     </>
   );
@@ -156,16 +94,7 @@ export const pageQuery = graphql`
             title
             formattedDate: date(formatString: "MMMM Do YYYY @ h:mm A")
             rawDate: date
-            presenters {
-              name
-              image
-              text
-              presentationTitle
-            }
             location {
-              mapsLatitude
-              mapsLongitude
-              mapsLink
               name
             }
           }
@@ -184,21 +113,6 @@ export const pageQuery = graphql`
             }
             upcomingMeetupHeading
             noUpcomingMeetupText
-            mapsNote
-            callToActions {
-              firstCTA {
-                heading
-                subHeading
-                linkType
-                linkURL
-              }
-              secondCTA {
-                heading
-                subHeading
-                linkType
-                linkURL
-              }
-            }
             seo {
               browserTitle
               title

@@ -1,7 +1,7 @@
 ---
 templateKey: past-meetups-page
 title: Past Meetups
-path: /meetups
+path: /events
 seo:
   browserTitle: Past Meetups | JS Wakanda
   description: View the topics that were presented at past JavaScript Montreal meetups.
